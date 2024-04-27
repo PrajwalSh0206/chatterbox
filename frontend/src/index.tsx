@@ -4,7 +4,7 @@ import App from "./App";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store/store";
-import GettingStarted from "./pages/login/GettingStarted";
+import GettingStarted from "./pages/getting-started/GettingStarted";
 
 const rootElement = document.getElementById("root");
 if (!rootElement) {
@@ -18,6 +18,10 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
+        element: <GettingStarted />,
+      },
+      {
+        path: "chat",
         element: <GettingStarted />,
       },
     ],
