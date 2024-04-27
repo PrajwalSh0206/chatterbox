@@ -31,7 +31,7 @@ const GettingStarted: React.FC = () => {
           <p className="subtext">
             {pageType == "login"
               ? "Lets Connect With Your Friends"
-              : "Let's get started on your journey together. Sign up and connect with friends!"}
+              : "Sign up and connect with friends!"}
           </p>
         </div>
         {pageType == "login" ? <Login></Login> : <Signup></Signup>}

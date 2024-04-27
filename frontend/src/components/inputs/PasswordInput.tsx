@@ -1,13 +1,17 @@
 import React, { useState } from "react";
+import { passwordDto, passwordTypeDto } from "../../../dto/components.dto";
 
-interface passwordDto {
-  placeholder: string;
-}
-
-type passwordTypeDto = "password" | "text";
-
-const PasswordInput: React.FC<passwordDto> = ({ placeholder }) => {
+const PasswordInput: React.FC<passwordDto> = ({
+  placeholder,
+  password,
+  setPassword,
+}) => {
   const [passwordType, setPasswordType] = useState<passwordTypeDto>("password");
+
+  const changePasswordType = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setPasswordType(passwordType == "text" ? "password" : "text");
+  };
 
   return (
     <div className="input">
@@ -24,13 +28,16 @@ const PasswordInput: React.FC<passwordDto> = ({ placeholder }) => {
         />
       </svg>
 
-      <input type={passwordType} placeholder={placeholder} />
-
-      <button
-        onClick={() => {
-          setPasswordType(passwordType == "password" ? "text" : "password");
+      <input
+        type={passwordType}
+        value={password}
+        placeholder={placeholder}
+        onChange={(e) => {
+          setPassword(e.target.value);
         }}
-      >
+      />
+
+      <button onClick={(e) => changePasswordType(e)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"

@@ -1,6 +1,7 @@
 import React from "react";
+import { usernameDto } from "../../../dto/components.dto";
 
-const UsernameInput: React.FC = () => {
+const UsernameInput: React.FC<usernameDto> = ({ username, setUsername }) => {
   return (
     <div className="input">
       <svg
@@ -15,7 +16,12 @@ const UsernameInput: React.FC = () => {
         />
       </svg>
 
-      <input type="text" placeholder="Enter a username" />
+      <input
+        type="text"
+        placeholder="Enter a username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
     </div>
   );
 };
