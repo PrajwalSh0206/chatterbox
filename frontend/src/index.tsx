@@ -4,7 +4,7 @@ import App from "./App";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store/store";
-import Login from "./pages/login/Login";
+import GettingStarted from "./pages/login/GettingStarted";
 
 const rootElement = document.getElementById("root");
 if (!rootElement) {
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Login></Login>,
+        element: <GettingStarted />,
       },
     ],
   },
