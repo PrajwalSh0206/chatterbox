@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
 interface passwordDto {
   placeholder: string;
 }
 
+type passwordTypeDto = "password" | "text";
+
 const PasswordInput: React.FC<passwordDto> = ({ placeholder }) => {
+  const [passwordType, setPasswordType] = useState<passwordTypeDto>("password");
+
   return (
     <div className="input">
       <svg
@@ -20,9 +24,13 @@ const PasswordInput: React.FC<passwordDto> = ({ placeholder }) => {
         />
       </svg>
 
-      <input type="password" placeholder={placeholder} />
+      <input type={passwordType} placeholder={placeholder} />
 
-      <button>
+      <button
+        onClick={() => {
+          setPasswordType(passwordType == "password" ? "text" : "password");
+        }}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
