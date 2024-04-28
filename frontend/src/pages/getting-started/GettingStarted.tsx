@@ -2,24 +2,23 @@ import React, { useState } from "react";
 import "./GettingStarted.scss";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import Snackbar from "../../components/snackbar/Snackbar";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 type pageTypeDto = "login" | "signup";
 
 const GettingStarted: React.FC = () => {
   const [pageType, setPageType] = useState<pageTypeDto>("login");
+  const snackBarDetails = useSelector((state: RootState) => state.snackbar);
 
   return (
     <main id="gettingStarted">
+      <Snackbar message={snackBarDetails.message} visible={snackBarDetails.visible}></Snackbar>
       <div className="card">
         <div className="header">
           <div className="logo">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -28,13 +27,9 @@ const GettingStarted: React.FC = () => {
             </svg>
           </div>
           <p className="title">{pageType == "login" ? "Login" : "SignUp"}</p>
-          <p className="subtext">
-            {pageType == "login"
-              ? "Lets Connect With Your Friends"
-              : "Sign up and connect with friends!"}
-          </p>
+          <p className="subtext">{pageType == "login" ? "Lets Connect With Your Friends" : "Sign up and connect with friends!"}</p>
         </div>
-        {pageType == "login" ? <Login></Login> : <Signup></Signup>}
+        {pageType == "login" ? <Login></Login> : <Signup setPageType={setPageType}></Signup>}
         <div className="line"></div>
         {pageType == "login" ? (
           <p>

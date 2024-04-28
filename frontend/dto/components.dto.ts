@@ -12,3 +12,8 @@ export interface passwordDto {
   setPassword: Dispatch<string>;
   placeholder: string;
 }
+
+export interface SnackbarDto {
+  message: string;
+  visible?: boolean;
+}

@@ -3,9 +3,7 @@ import { createUserDto, findUserDto } from "../dto/user.dto";
 import User from "../models/users.model";
 import { CustomError } from "../utils/CustomError";
 
-export const createUserDetails = async (
-  userDetails: createUserDto
-): Promise<void> => {
+export const createUserDetails = async (userDetails: createUserDto): Promise<void> => {
   try {
     await User.create({ ...userDetails });
   } catch (err) {
@@ -18,19 +16,16 @@ export const createUserDetails = async (
   }
 };
 
-export const fetchUserDetails = async (
-  conditions: findUserDto,
-  logger:winston.Logger,
-  attributes: Array<string> = ["userId"],
-): Promise<User | null> => {
+export const fetchUserDetails = async (conditions: findUserDto, logger: winston.Logger, attributes: Array<string> = ["userId"]): Promise<User | null> => {
   try {
-    logger.child({operation:"Fetch User Details"})
+    logger.child({ operation: "Fetch User Details" });
     const userDetails = await User.findOne({
       attributes,
       where: {
         ...conditions,
       },
     });
+    logger.info(`User Details | ${JSON.stringify(userDetails)}`);
     return userDetails;
   } catch (err) {
     console.error(err);
