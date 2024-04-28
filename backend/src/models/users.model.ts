@@ -4,7 +4,7 @@ import sequelize from "./index"; // Import Sequelize instance
 import Authentication from "../utils/Authentication";
 
 class User extends Model {
-  public userId!: number;
+  public userId!: string;
   public username!: string; // Definite assignment assertion
   public password_hash!: string;
 }
@@ -12,13 +12,15 @@ class User extends Model {
 User.init(
   {
     userId: {
-      type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      unique: true,
     },
     username: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     password_hash: {
       type: DataTypes.STRING,

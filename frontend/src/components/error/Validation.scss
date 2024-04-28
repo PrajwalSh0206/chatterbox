@@ -1,0 +1,18 @@
+#validation {
+  display: flex;
+  flex-direction: column;
+  > * + * {
+    margin-top: 0.2rem;
+  }
+  div {
+    display: flex;
+    font-size: 0.25rem * 3;
+    align-items: center;
+    svg {
+      height: 0.25rem * 6;
+    }
+    > * + * {
+      margin-left: 0.25rem * 2;
+    }
+  }
+}

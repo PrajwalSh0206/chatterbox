@@ -4,9 +4,10 @@ import UsernameInput from "../../../components/inputs/UsernameInput";
 import { Authenticator } from "../../../services/Authenticator";
 import { userSignUpPayloadDto } from "../../../../dto/apiService.dto";
 import CustomError from "../../../services/CustomError";
-import { REGEX } from "../../../constants/common";
+import { REGEX, VALIDATION } from "../../../constants/common";
 import { useDispatch } from "react-redux";
 import { enableSnackbar } from "../../../store/reducers/snackBarReducer";
+import Validation from "../../../components/error/Validation";
 
 interface signupDto {
   setPageType: any;
@@ -15,7 +16,10 @@ interface signupDto {
 const Signup: React.FC<signupDto> = ({ setPageType }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordErr, setPasswordErr] = useState(true);
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [confPasswordErr, setConfPasswordErr] = useState(true);
+
   const dispatch = useDispatch();
 
   const handleSignup = async (e: React.MouseEvent) => {
@@ -55,8 +59,15 @@ const Signup: React.FC<signupDto> = ({ setPageType }) => {
     <form>
       <UsernameInput username={username} setUsername={setUsername}></UsernameInput>
       <PasswordInput password={password} setPassword={setPassword} placeholder="Enter password"></PasswordInput>
+      {password != "" && <Validation setError={setPasswordErr} value={password} validationConditions={VALIDATION.LOGIN_PAGE.PASSWORD_CONDITION}></Validation>}
       <PasswordInput password={confirmPassword} setPassword={setConfirmPassword} placeholder="Confirm password"></PasswordInput>
-      <button onClick={(e) => handleSignup(e)}>Sign Up</button>
+      {confirmPassword != "" && password != "" && (
+        <Validation setError={setConfPasswordErr} value={confirmPassword} validationConditions={[{ message: "Password Match", regex: password }]}></Validation>
+      )}
+
+      <button disabled={passwordErr || confPasswordErr} onClick={(e) => handleSignup(e)}>
+        Sign Up
+      </button>
     </form>
   );
 };

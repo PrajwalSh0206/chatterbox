@@ -1,5 +1,5 @@
 export interface jwtPayloadDto {
-  userId: number;
+  userId: string;
   username: string; // Definite assignment assertion
 }
 
