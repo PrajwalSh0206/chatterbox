@@ -1,0 +1,75 @@
+div#chat {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  main {
+    flex: 1;
+    display: flex;
+    aside {
+      height: 100%;
+      width: 25%;
+      border-right: 1px solid #939292;
+      background-color: #f0eeee;
+      padding: 0.25rem * 5;
+      display: flex;
+      flex-direction: column;
+      .searchbar {
+        display: flex;
+        align-items: center;
+        background-color: white;
+        padding: 0.25rem*3;
+        border: 1px solid #828282;
+        border-radius: 50px;
+        input{
+            border:0;
+            height: 100%;
+            width: 100%;
+            &:focus{
+                outline: none;
+            }
+        }
+        svg {
+          height: 0.25rem * 5;
+        }
+        > * + * {
+            margin-left: 0.25rem * 3;
+          }
+      }
+      > * + * {
+        margin-top: 0.25rem * 3;
+      }
+      .title {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        > * + * {
+          margin-left: 0.25rem * 2;
+        }
+        p {
+          font-size: 0.25rem * 6;
+        }
+        .logo {
+          background-color: rgb(55 65 81);
+          color: #fff;
+          border-radius: 100%;
+          height: 0.25rem * 11;
+          padding: 0.2rem * 3;
+          width: 0.25rem * 11;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          svg {
+            height: 100%;
+          }
+        }
+      }
+    }
+    section {
+      width: 75%;
+    }
+  }
+}

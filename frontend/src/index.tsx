@@ -5,6 +5,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import GettingStarted from "./pages/getting-started/GettingStarted";
+import Chat from "./pages/chat/Chat";
 
 const rootElement = document.getElementById("root");
 if (!rootElement) {
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
       },
       {
         path: "chat",
-        element: <GettingStarted />,
+        element: <Chat />,
       },
     ],
   },

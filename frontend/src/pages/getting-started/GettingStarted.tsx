@@ -9,7 +9,7 @@ const GettingStarted: React.FC = () => {
   const [pageType, setPageType] = useState<pageTypeDto>("login");
 
   return (
-    <div className="login">
+    <main id="gettingStarted">
       <div className="card">
         <div className="header">
           <div className="logo">
@@ -52,7 +52,7 @@ const GettingStarted: React.FC = () => {
           </p>
         )}
       </div>
-    </div>
+    </main>
   );
 };
 
