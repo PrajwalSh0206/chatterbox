@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
-import { userDto, validateSuccessResponse } from "../dto/user.dto";
-import { createUserDetails, fetchUserDetails } from "../service/users";
+import { getUserSuccessResponse, jwtPayloadDto, userDto, validateSuccessResponse } from "../dto/user.dto";
+import { createUserDetails, fetchAllUserDetails, fetchUserDetails } from "../service/users";
 import { CustomError, ErrorHandling } from "../utils/CustomError";
 import Authentication from "../utils/Authentication";
 import { Logger } from "../utils/Logger";
+import { Op } from "sequelize";
 
 export default class UserController {
   async createUserId(req: Request<userDto>, res: Response): Promise<Response> {
@@ -55,7 +56,7 @@ export default class UserController {
           username: userDetails.username,
         },
         logger,
-        ["userId", "password_hash"]
+        ["userId", "username", "password_hash"]
       );
 
       // Check if user exist
@@ -76,6 +77,41 @@ export default class UserController {
           message: "UserName Does Not Exist",
         };
         throw new CustomError("UserName Does Not Exist", 400, errorResponse);
+      }
+    } catch (err) {
+      const errObj = new ErrorHandling();
+      const { errorResponse, errorStatus } = errObj.errorHandling(err, logger);
+      return res.status(errorStatus).send(errorResponse);
+    }
+  }
+
+  async getUserDetails(req: Request<any>, res: Response) {
+    const logger = new Logger("Get_User_Details").createLogger();
+    try {
+      let successResponse: getUserSuccessResponse = {
+        message: "User Details Retrieved Success",
+        userDetails: [],
+      };
+      const userDetails: jwtPayloadDto = req.body;
+
+      const isUserExist = await fetchAllUserDetails(
+        {
+          username: { [Op.notLike]: userDetails.username },
+        },
+        logger,
+        ["userId", "username"]
+      );
+
+      // Check if user exist
+      if (isUserExist?.length) {
+        successResponse.userDetails = isUserExist;
+        return res.status(200).send(successResponse);
+      } else {
+        logger.error("No User Details Found");
+        const errorResponse = {
+          message: "No User Details Found",
+        };
+        throw new CustomError("No User Details Found", 400, errorResponse);
       }
     } catch (err) {
       const errObj = new ErrorHandling();

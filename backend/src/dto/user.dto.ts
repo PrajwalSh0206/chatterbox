@@ -21,3 +21,8 @@ export interface validateSuccessResponse {
   message: string;
   token: string;
 }
+
+export interface getUserSuccessResponse {
+  message: string;
+  userDetails:Array<any>
+}

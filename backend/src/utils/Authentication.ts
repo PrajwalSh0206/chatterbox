@@ -20,7 +20,7 @@ export default class Authentication {
   }
 
   // Function to verify a JWT token
-  verifyToken(token: string): string | jwt.JwtPayload {
+  verifyToken(token: string): any {
     return jwt.verify(token, this.secretKey);
   }
 }

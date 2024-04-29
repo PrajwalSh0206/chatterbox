@@ -4,6 +4,7 @@ import router from "./src/routes";
 import morgan from "morgan";
 import sequelize from "./src/models";
 import cors from "cors";
+import AuthMiddleware from "./src/middleware/authMiddleware";
 
 const app = express();
 const port = 5000;
@@ -11,10 +12,11 @@ const port = 5000;
 app.use(cors());
 app.use(express.json());
 
-
 app.use(bodyParser.json());
 app.use(morgan("dev"));
 
+const authObj = new AuthMiddleware();
+app.use(authObj.verifyUser);
 app.use(router);
 
 // Sync Sequelize models with the database
