@@ -2,11 +2,18 @@ import axios from "axios";
 import CustomError from "./CustomError";
 
 export default class AxiosHandler {
-  async callAxios(apiName: string, url: string, payload: any, method: string = "POST") {
+  async callAxios(apiName: string, url: string, payload: any, method: string = "POST", token: string = "") {
     try {
+      let headers = {};
+      if (token) {
+        headers = {
+          Authorization: `Bearer ${token}`,
+        };
+      }
       const response = await axios({
         method,
         url,
+        headers,
         data: payload,
       });
       return response;
@@ -20,7 +27,7 @@ export default class AxiosHandler {
           status: error.response?.status ?? errorResponse.status,
         };
       }
-      console.error(errorResponse)
+      console.error(errorResponse);
       throw new CustomError(errorResponse.message, errorResponse.status, errorResponse);
     }
   }
