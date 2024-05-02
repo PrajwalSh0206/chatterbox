@@ -16,4 +16,11 @@ export class Authenticator {
     const response = await axiosObj.callAxios("LOGIN", url, payload);
     return response;
   }
+
+  async authToken(token: string) {
+    const url = API_URL.AUTH_TOKEN;
+    const axiosObj = new AxiosHandler();
+    const response = await axiosObj.callAxios("AUTH TOKEN", url, {}, "POST", token);
+    return response;
+  }
 }

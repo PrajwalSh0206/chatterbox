@@ -5,11 +5,39 @@ import morgan from "morgan";
 import sequelize from "./src/models";
 import cors from "cors";
 import AuthMiddleware from "./src/middleware/authMiddleware";
-
+import { Server, Socket } from "socket.io";
 const app = express();
+const http = require("http");
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
+// Define an interface for the message object
+interface Message {
+  sender: string;
+  content: string;
+}
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
+
+// Socket.IO events
+io.on("connection", (socket: Socket) => {
+  console.log("A user connected", socket.id);
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+  });
+});
+
 const port = 5000;
 
-app.use(cors());
 app.use(express.json());
 
 app.use(bodyParser.json());
@@ -25,7 +53,7 @@ sequelize
   .then(() => {
     console.log("Database synchronized.");
 
-    app.listen(port, () => {
+    server.listen(port, () => {
       console.log(`Server running at http://localhost:${port}`);
       console.log(`Server running at http://localhost:${port}/api-docs`);
     });

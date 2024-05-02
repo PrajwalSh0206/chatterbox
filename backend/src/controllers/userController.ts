@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getUserSuccessResponse, jwtPayloadDto, userDto, validateSuccessResponse } from "../dto/user.dto";
+import { defaultSuccessResponseDto, getUserSuccessResponse, jwtPayloadDto, userDto, validateSuccessResponse } from "../dto/user.dto";
 import { createUserDetails, fetchAllUserDetails, fetchUserDetails } from "../service/users";
 import { CustomError, ErrorHandling } from "../utils/CustomError";
 import Authentication from "../utils/Authentication";
@@ -118,5 +118,15 @@ export default class UserController {
       const { errorResponse, errorStatus } = errObj.errorHandling(err, logger);
       return res.status(errorStatus).send(errorResponse);
     }
+  }
+
+  async validateToken(req: Request<any>, res: Response) {
+    const logger = new Logger("Token Validation").createLogger();
+    let successResponse: defaultSuccessResponseDto = {
+      message: "Valid Token Provided",
+    };
+    logger.info("Success");
+
+    return res.status(200).send(successResponse);
   }
 }

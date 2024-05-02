@@ -17,12 +17,14 @@ export interface findUserDto {
   username: string;
 }
 
-export interface validateSuccessResponse {
+export interface defaultSuccessResponseDto {
   message: string;
+}
+
+export interface validateSuccessResponse extends defaultSuccessResponseDto {
   token: string;
 }
 
-export interface getUserSuccessResponse {
-  message: string;
-  userDetails:Array<any>
+export interface getUserSuccessResponse extends defaultSuccessResponseDto {
+  userDetails: Array<any>;
 }

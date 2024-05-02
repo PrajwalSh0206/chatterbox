@@ -1,16 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./GettingStarted.scss";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Snackbar from "../../components/snackbar/Snackbar";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { useNavigate } from "react-router-dom";
+import { Authenticator } from "../../services/Authenticator";
 
 type pageTypeDto = "login" | "signup";
 
 const GettingStarted: React.FC = () => {
   const [pageType, setPageType] = useState<pageTypeDto>("login");
   const snackBarDetails = useSelector((state: RootState) => state.snackbar);
+  const navigate = useNavigate();
+
+  const authToken = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const authObj = new Authenticator();
+        const response = await authObj.authToken(token);
+        console.log(response);
+        navigate("/chat");
+      } catch (error) {
+        console.error(error);
+        localStorage.removeItem("token");
+      }
+    }
+  };
+
+  useEffect(() => {
+    authToken();
+  }, []);
 
   return (
     <main id="gettingStarted">

@@ -4,4 +4,6 @@ export const API_URL = {
   SIGNUP: `${BASE_URL}/user/signup`,
   LOGIN: `${BASE_URL}/user/login`,
   GET_USER: `${BASE_URL}/user/userDetails`,
+  AUTH_TOKEN: `${BASE_URL}/user/validateToken`,
+
 };

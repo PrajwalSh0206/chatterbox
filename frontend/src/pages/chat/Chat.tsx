@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import SideBar from "./components/SideBar";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
+import { Authenticator } from "../../services/Authenticator";
+import { io } from "socket.io-client";
 
 interface UserDto {
   userId: string;
@@ -20,35 +22,56 @@ const Chat: React.FC = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState<Array<UserDto>>([]);
   const [showPicker, setShowPicker] = useState(false);
+  const [socket, setSocket] = useState();
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
+  //const socketConnection
+  const handleSocketConnection = () => {
+    const socket = io("http://localhost:5000");
+    socket.on("connect", () => {
+      console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+    });
+  };
+
+  const fetchUserDetails = async (token: string) => {
+    try {
+      const authObj = new UserApiService();
+      const response = await authObj.getUser({}, token);
+      console.log(response);
+      setUsers(response.data.userDetails);
+      handleSocketConnection();
+    } catch (error) {
+      console.error(error);
+      let snackBarpayload = {
+        message: "Api Failed In Get Details With Status 500",
+        visible: true,
+      };
+      if (error instanceof CustomError) {
+        snackBarpayload.message = error.message;
+      }
+      dispatch(enableSnackbar(snackBarpayload));
+    }
+  };
+
+  const authToken = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
       try {
-        const token = localStorage.getItem("token");
-        if (token) {
-          const authObj = new UserApiService();
-          const response = await authObj.getUser({}, token);
-          console.log(response);
-
-          if (REGEX.SUCCESS_CODE.test(response.status.toString())) {
-            setUsers(response.data.userDetails);
-          }
-        } else {
-          navigate("/");
-        }
+        const authObj = new Authenticator();
+        const response = await authObj.authToken(token);
+        await fetchUserDetails(token);
+        console.log(response);
       } catch (error) {
         console.error(error);
-        let snackBarpayload = {
-          message: "Api Failed In Get Details With Status 500",
-          visible: true,
-        };
-        if (error instanceof CustomError) {
-          snackBarpayload.message = error.message;
-        }
-        dispatch(enableSnackbar(snackBarpayload));
+        localStorage.removeItem("token");
+        navigate("/");
       }
-    };
-    fetchUserDetails();
+    } else {
+      navigate("/");
+    }
+  };
+
+  useEffect(() => {
+    authToken();
   }, []);
 
   return (
@@ -61,12 +84,11 @@ const Chat: React.FC = () => {
             <p>{"Megaman226"}</p>
           </nav>
           <div id="chat">
-
-          {showPicker && (
-            <div id="picker">
-              <Picker data={data} onSelect={console.log} />
-            </div>
-          )}
+            {showPicker && (
+              <div id="picker">
+                <Picker data={data} onSelect={console.log} />
+              </div>
+            )}
           </div>
           <footer>
             <input type="text" placeholder="Type something" />
