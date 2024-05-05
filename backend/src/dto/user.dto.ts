@@ -21,6 +21,11 @@ export interface defaultSuccessResponseDto {
   message: string;
 }
 
+export interface validateResponseDto extends defaultSuccessResponseDto{
+  username:string,
+  userId:string,
+}
+
 export interface validateSuccessResponse extends defaultSuccessResponseDto {
   token: string;
 }

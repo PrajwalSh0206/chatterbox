@@ -5,21 +5,19 @@ import morgan from "morgan";
 import sequelize from "./src/models";
 import cors from "cors";
 import AuthMiddleware from "./src/middleware/authMiddleware";
-import { Server, Socket } from "socket.io";
+import { Server } from "socket.io";
+import { ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketData } from "./src/dto/socket";
+import { handleConnection } from "./src/sockets/connection";
+import messageHandler from "./src/sockets/messageHandler";
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
 
-const io = new Server(server, {
+const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(server, {
   cors: {
     origin: "http://localhost:3000",
   },
 });
-// Define an interface for the message object
-interface Message {
-  sender: string;
-  content: string;
-}
 
 app.use(
   cors({
@@ -27,10 +25,20 @@ app.use(
   })
 );
 
-// Socket.IO events
-io.on("connection", (socket: Socket) => {
-  console.log("A user connected", socket.id);
+io.use((socket, next) => {
+  const username = socket.handshake.auth.username;
+  if (!username) {
+    throw new Error("Unauthorized User");
+  }
+  console.log("Username", username);
+  socket.data.username = username;
+  next();
+});
 
+// Socket.IO events
+io.on("connection", (socket) => {
+  handleConnection(io, socket);
+  messageHandler(io, socket);
   socket.on("disconnect", () => {
     console.log("User disconnected");
   });
@@ -43,9 +51,15 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(morgan("dev"));
 
+// Middlewares
 const authObj = new AuthMiddleware();
 app.use(authObj.verifyUser);
+
 app.use(router);
+
+process.on("uncaughtException", (err) => {
+  console.log("Error", err);
+});
 
 // Sync Sequelize models with the database
 sequelize

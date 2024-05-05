@@ -1,14 +1,33 @@
 import React from "react";
-interface UserDto {
+import "./SideBar.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { storeSelectedRecieverDetails } from "../../../store/reducers/recieverReducer";
+import { RootState } from "../../../store/store";
+
+interface socketUserDto {
   userId: string;
   username: string;
+  online: boolean;
+  socketId?: string;
+  messages: Array<any>;
 }
 
-interface SideBarDto {
-  users: Array<UserDto>;
-}
+const SideBar: React.FC = () => {
+  const recieverDetails = useSelector((state: RootState) => state.receiever.receivers);
 
-const SideBar: React.FC<SideBarDto> = ({ users }) => {
+  const dispatch = useDispatch();
+  const setReciever = (receiver: socketUserDto) => {
+    const payload = {
+      userId: receiver.userId,
+      online: receiver.online,
+      username: receiver.username,
+      socketId: receiver.socketId,
+      messages: receiver.messages,
+    };
+    dispatch(storeSelectedRecieverDetails(payload));
+    console.log(recieverDetails, "new connection");
+  };
+
   return (
     <aside>
       <div className="group">
@@ -37,12 +56,16 @@ const SideBar: React.FC<SideBarDto> = ({ users }) => {
         </div>
       </div>
       <div id="users">
-        {users.map((value) => {
+        {recieverDetails.map((value) => {
           return (
-            <div className="contact" key={value.userId}>
-              <img src={`https://api.dicebear.com/8.x/shapes/svg?seed=${value.username}`} alt={value.username} />
-              <p>{value.username}</p>
-            </div>
+            <button className="contact" key={value.userId} onClick={() => setReciever(value)}>
+              <div>
+                <img src={`https://api.dicebear.com/8.x/shapes/svg?seed=${value.username}`} alt={value.username} />
+                <p>{value.username}</p>
+              </div>
+              {/* Online Status */}
+              <div className={`${value.online ? "green" : ""} status`}></div>
+            </button>
           );
         })}
       </div>

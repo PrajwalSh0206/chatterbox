@@ -8,6 +8,7 @@ import CustomError from "../../../services/CustomError";
 import { enableSnackbar } from "../../../store/reducers/snackBarReducer";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { storeUserDetails } from "../../../store/reducers/userReducer";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -25,6 +26,7 @@ const Login: React.FC = () => {
       const authObj = new Authenticator();
       const response = await authObj.login(payload);
       if (REGEX.SUCCESS_CODE.test(response.status.toString())) {
+        dispatch(storeUserDetails({username}));
         setUsername("");
         setPassword("");
         localStorage.setItem("token", response.data.token);
