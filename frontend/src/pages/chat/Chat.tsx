@@ -44,7 +44,6 @@ const Chat: React.FC = () => {
 
     socket.on("connect", () => {
       setNewSocket(socket);
-      console.log(socket.id); // x8WIv7-mJelg7on_ALbx
     });
     socket.on("sendUser", (users: Array<socketUserDto>) => {
       console.log("users", users);
@@ -78,6 +77,12 @@ const Chat: React.FC = () => {
       dispatch(updateRecieverDetails(updateReceieverPayload));
       console.log(recieverDetails, user, "new connection");
     });
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key == "Enter") {
+      onMessage();
+    }
   };
 
   interface socketUserDto {
@@ -165,8 +170,9 @@ const Chat: React.FC = () => {
                 type="text"
                 value={message}
                 placeholder="Type something"
-                onChange={(e) => {
-                  setMessage(e.target.value);
+                onChange={(e) => setMessage(e.target.value)}
+                onKeyDown={(e) => {
+                  handleKeyDown(e);
                 }}
               />
               <button onClick={() => setShowPicker(!showPicker)}>

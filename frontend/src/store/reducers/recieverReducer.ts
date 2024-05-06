@@ -67,13 +67,13 @@ const recieverSlice = createSlice({
         state.selectedReceiver.online = true;
       }
     },
-    storeSelectedRecieverDetails: (state, actions: PayloadAction<UserDto>) => {
+    storeSelectedRecieverDetails: (state, actions: PayloadAction<ReceiverDto>) => {
       state.selectedReceiver = {
         userId: actions.payload.userId,
         username: actions.payload.username,
         socketId: actions.payload.socketId,
         online: actions.payload.online,
-        messages: [],
+        messages: actions.payload.messages,
       };
     },
     saveMessages: (state, actions: PayloadAction<messagePayloadDto>) => {

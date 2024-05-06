@@ -76,29 +76,39 @@ aside {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      & > * + * {
+        margin-left: 0.25rem * 3;
+      }
 
-      &:active{
+      &:active {
         background-color: #ece8e8;
       }
 
-      div {
+      img {
+        height: 0.25rem * 8;
+        border-radius: 100%;
+        outline: 3px solid #d3d3d3;
+        border: 2px solid #828282;
+      }
+      .userInfo {
         display: flex;
-        align-items: center;
-        img {
-          height: 0.25rem * 8;
-          border-radius: 100%;
-          outline: 3px solid #d3d3d3;
-          border: 2px solid #828282;
+        flex-direction: column;
+        width: 100%;
+        align-items: start;
+
+        & > * + * {
+          margin-top: 0.25rem;
         }
-        > * + * {
-          margin-left: 0.25rem * 3;
+        .recentMessage {
+          display: flex;
+          & > * + * {
+            margin-left: 0.25rem;
+          }
         }
       }
-      > * + * {
-        margin-left: 0.25rem * 3;
-      }
+
       .status {
-        padding: 0.40rem;
+        padding: 0.4rem;
         border-radius: 100px;
         &.green {
           background-color: rgb(31, 188, 31);

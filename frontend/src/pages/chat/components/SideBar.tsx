@@ -59,12 +59,22 @@ const SideBar: React.FC = () => {
         {recieverDetails.map((value) => {
           return (
             <button className="contact" key={value.userId} onClick={() => setReciever(value)}>
-              <div>
-                <img src={`https://api.dicebear.com/8.x/shapes/svg?seed=${value.username}`} alt={value.username} />
+              <img src={`https://api.dicebear.com/8.x/shapes/svg?seed=${value.username}`} alt={value.username} />
+              <div className="userInfo">
                 <p>{value.username}</p>
+                {value.messages.length > 0 && (
+                  <div className="recentMessage">
+                    <small>{value.messages[value.messages.length - 1].content.substring(0, 30)} - </small>
+                    <small>
+                      {new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "numeric" }).format(
+                        new Date(value.messages[value.messages.length - 1].timeStamp)
+                      )}
+                    </small>
+                  </div>
+                )}
               </div>
-              {/* Online Status */}
               <div className={`${value.online ? "green" : ""} status`}></div>
+              {/* Online Status */}
             </button>
           );
         })}

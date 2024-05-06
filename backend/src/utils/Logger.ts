@@ -4,8 +4,19 @@ const { combine, timestamp, printf, label, colorize } = format;
 export class Logger {
   // Define log format
   functionName = "";
+  filename = "";
   constructor(functionName: string) {
     this.functionName = functionName;
+    this.filename = new Intl.DateTimeFormat("en-US", {
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
+    })
+      .format(new Date())
+      .toString()
+      .split("/")
+      .join("-");
+    console.log(this.filename);
   }
 
   createLogger(): winston.Logger {
@@ -20,8 +31,8 @@ export class Logger {
       ),
 
       transports: [
-        new winston.transports.File({ filename: "./logger/error.log", level: "error" }),
-        new winston.transports.File({ filename: "./logger/combined.log" }),
+        new winston.transports.File({ filename: `./logger/${this.filename}_error.log`, level: "error" }),
+        new winston.transports.File({ filename: `./logger/${this.filename}_combined.log` }),
         new winston.transports.Console(), // Log to console
       ],
     });
