@@ -23,7 +23,7 @@ const Chat: React.FC = () => {
   const navigate = useNavigate();
   const [showPicker, setShowPicker] = useState(false);
   const [newSocket, setNewSocket] = useState<Socket>();
-  const [message, setMessage] = useState<string>();
+  const [message, setMessage] = useState<string>("");
 
   const recieverDetails = useSelector((state: RootState) => state.receiever.receivers);
   const selectedRecieverDetail = useSelector((state: RootState) => state.receiever.selectedReceiver);
@@ -31,6 +31,10 @@ const Chat: React.FC = () => {
   function dispatchEvent(dispatchName: any, data: any) {
     dispatch(dispatchName(data));
   }
+
+  const handleMessage = (emoji: string) => {
+    setMessage(message + emoji);
+  };
 
   //const socketConnection
   const handleSocketConnection = (name: string) => {
@@ -54,13 +58,14 @@ const Chat: React.FC = () => {
         dispatchEvent(storeRecieverDetails, receieverPayload);
       }
     });
-    socket.on("private message", ({ content, from }) => {
-      console.log("from", from, content);
+    socket.on("private message", ({ content, from, timeStamp }) => {
+      console.log("from", from, content, timeStamp);
 
       const messagePayload = {
         content,
         fromSelf: false,
         socketId: from,
+        timeStamp,
       };
       dispatchEvent(saveMessages, messagePayload);
       console.log("from se", selectedRecieverDetail, recieverDetails, messagePayload);
@@ -114,16 +119,20 @@ const Chat: React.FC = () => {
   const onMessage = () => {
     console.log(selectedRecieverDetail.socketId, message, selectedRecieverDetail.messages);
     if (selectedRecieverDetail?.socketId && message) {
+      const timeStamp = new Date().toISOString();
       newSocket?.emit("private message", {
         content: message,
         to: selectedRecieverDetail.socketId,
+        timeStamp,
       });
       const messagePayload = {
         content: message,
         fromSelf: true,
         socketId: selectedRecieverDetail.socketId,
+        timeStamp,
       };
       dispatch(saveMessages(messagePayload));
+      setShowPicker(false);
       setMessage("");
     }
   };
@@ -138,15 +147,16 @@ const Chat: React.FC = () => {
               <img src={`https://api.dicebear.com/8.x/shapes/svg?seed=${selectedRecieverDetail.username}`} alt={selectedRecieverDetail.username} />
               <p>{selectedRecieverDetail.username}</p>
             </nav>
-            <div id="chat">
+            <div id="chat-block">
               {selectedRecieverDetail.messages.map((message) => (
-                <div className="message" key={message.content}>
-                  {message.content}
+                <div className={`${message.fromSelf ? "right" : "left"} message`} key={message.content}>
+                  <p className="content">{message.content}</p>
+                  <p className="time">{new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "numeric" }).format(new Date(message.timeStamp))}</p>
                 </div>
               ))}
               {showPicker && (
                 <div id="picker">
-                  <Picker data={data} onSelect={console.log} />
+                  <Picker data={data} onEmojiSelect={(e: any) => handleMessage(e.native)} />
                 </div>
               )}
             </div>

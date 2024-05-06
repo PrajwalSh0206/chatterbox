@@ -7,6 +7,7 @@ div#chat {
 
   main {
     flex: 1;
+    max-height: 100%;
     display: flex;
     background-color: #f0eeee;
     padding: 0.25rem * 5;
@@ -29,6 +30,7 @@ div#chat {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      position: relative;
       nav {
         width: 100%;
         border-bottom: 2px solid #312b3133;
@@ -46,10 +48,35 @@ div#chat {
           margin-left: 0.25rem * 3;
         }
       }
-      #chat {
+      #chat-block {
         position: relative;
         display: flex;
         flex-direction: column;
+        flex: 1;
+        padding: 0.25rem * 4;
+        overflow-y: scroll;
+        .message {
+          padding: 0.25rem * 3;
+          border-radius: 20px 20px 20px 0;
+          text-align: justify;
+          max-width: 50%;
+          display: flex;
+          flex-direction: column;
+          box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+          width: auto;
+          border: 1px solid #d3d3d3;
+          align-self: start;
+          .content {
+            font-size: 0.26rem * 3;
+          }
+          .time {
+            font-size: 0.25rem * 3;
+          }
+          &.right {
+            align-self: flex-end;
+            border-radius: 20px 20px 0 20px;
+          }
+        }
         > * + * {
           margin-top: 0.25rem * 3;
         }

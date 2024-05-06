@@ -4,6 +4,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 interface MessageDto {
   content: string;
   fromSelf: boolean;
+  timeStamp: string;
 }
 
 interface messagePayloadDto extends MessageDto {
@@ -57,7 +58,6 @@ const recieverSlice = createSlice({
     },
     updateRecieverDetails: (state, actions: PayloadAction<updateRecieverDto>) => {
       const index = state.receivers.findIndex((value) => (value.username = actions.payload.username));
-      debugger;
       if (index != -1) {
         state.receivers[index].socketId = actions.payload.socketId;
         state.receivers[index].online = true;
@@ -83,12 +83,14 @@ const recieverSlice = createSlice({
         state.receivers[index].messages.push({
           content: actions.payload.content,
           fromSelf: actions.payload.fromSelf,
+          timeStamp: actions.payload.timeStamp,
         });
       }
       if (state.selectedReceiver.socketId == actions.payload.socketId) {
         state.selectedReceiver.messages.push({
           content: actions.payload.content,
           fromSelf: actions.payload.fromSelf,
+          timeStamp: actions.payload.timeStamp,
         });
       }
     },
