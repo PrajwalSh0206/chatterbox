@@ -70,7 +70,7 @@ Before running the application, ensure you have the following installed:
     ```
 
 3. **Open the application in your browser:**
-    Navigate to `http://localhost:3000` to access the chat application.
+Navigate to `http://localhost:3000` to access the chat application.
 
 ## Screenshots
 
