@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { passwordDto, passwordTypeDto } from "../../../dto/components.dto";
+import { passwordDto, passwordTypeDto } from "../../../dto/components";
 import "./PasswordInput.scss";
 
 const PasswordInput: React.FC<passwordDto> = ({

@@ -11,13 +11,6 @@ import { RootState } from "../../store/store";
 import { storeUserDetails } from "../../store/reducers/userReducer";
 import { saveMessages, storeRecieverDetails, updateRecieverDetails } from "../../store/reducers/recieverReducer";
 
-interface UserDto {
-  userId: string;
-  username: string;
-  online?: boolean;
-  socketId?: string;
-}
-
 const Chat: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

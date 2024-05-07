@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { SnackbarDto } from "../../../dto/components.dto";
+import { SnackbarDto } from "../../../dto/components";
 import "./Snackbar.scss";
 import { useDispatch } from "react-redux";
 import { disableSnackbar } from "../../store/reducers/snackBarReducer";

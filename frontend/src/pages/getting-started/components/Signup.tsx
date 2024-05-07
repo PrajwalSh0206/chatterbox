@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PasswordInput from "../../../components/inputs/PasswordInput";
 import UsernameInput from "../../../components/inputs/UsernameInput";
 import { Authenticator } from "../../../services/Authenticator";
-import { userSignUpPayloadDto } from "../../../../dto/apiService.dto";
+import { userSignUpPayloadDto } from "../../../../dto/apiService";
 import CustomError from "../../../services/CustomError";
 import { REGEX, VALIDATION } from "../../../constants/common";
 import { useDispatch } from "react-redux";

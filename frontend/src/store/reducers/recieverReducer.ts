@@ -1,36 +1,6 @@
 // reducers/counterReducer.ts
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-
-interface MessageDto {
-  content: string;
-  fromSelf: boolean;
-  timeStamp: string;
-}
-
-interface messagePayloadDto extends MessageDto {
-  socketId: string;
-}
-
-interface UserDto {
-  socketId?: string;
-  username: string;
-  userId: string;
-  online: boolean;
-}
-
-interface ReceiverDto extends UserDto {
-  messages: Array<MessageDto>;
-}
-
-interface RecieverState {
-  receivers: Array<ReceiverDto>;
-  selectedReceiver: ReceiverDto;
-}
-
-interface updateRecieverDto {
-  username: string;
-  socketId: string;
-}
+import { ReceiverDto, RecieverState, UserDto, messagePayloadDto, updateRecieverDto } from "../../../dto/socket";
 
 const initialState: RecieverState = {
   receivers: [],

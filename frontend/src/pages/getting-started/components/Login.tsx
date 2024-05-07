@@ -3,7 +3,7 @@ import PasswordInput from "../../../components/inputs/PasswordInput";
 import UsernameInput from "../../../components/inputs/UsernameInput";
 import { Authenticator } from "../../../services/Authenticator";
 import { REGEX } from "../../../constants/common";
-import { userSignUpPayloadDto } from "../../../../dto/apiService.dto";
+import { userSignUpPayloadDto } from "../../../../dto/apiService";
 import CustomError from "../../../services/CustomError";
 import { enableSnackbar } from "../../../store/reducers/snackBarReducer";
 import { useDispatch } from "react-redux";
