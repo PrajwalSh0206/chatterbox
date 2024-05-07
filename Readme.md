@@ -84,4 +84,4 @@ Before running the application, ensure you have the following installed:
 
 ### Chat Page
 
-![Chat Page](screenshots/chat_sample.png)
+![Chat Page](screenshots/chat.png)
