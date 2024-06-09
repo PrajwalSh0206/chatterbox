@@ -74,6 +74,9 @@ div#chat {
           }
           &.right {
             align-self: flex-end;
+            background-color: #1565c0;
+            border: 1px solid #1565c0;
+            color: white;
             border-radius: 20px 20px 0 20px;
           }
         }

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import {  getUserSuccessResponse, jwtPayloadDto, userDto, validateResponseDto, validateSuccessResponse } from "../dto/user.dto";
+import {  getUserSuccessResponse, jwtPayloadDto, userDto, validateResponseDto, validateSuccessResponse } from "../dto/user";
 import { createUserDetails, fetchAllUserDetails, fetchUserDetails } from "../service/users";
 import { CustomError, ErrorHandling } from "../utils/CustomError";
 import Authentication from "../utils/Authentication";

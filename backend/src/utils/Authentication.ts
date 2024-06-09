@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
-import { jwtPayloadDto } from "../dto/user.dto";
+import { jwtPayloadDto } from "../dto/user";
 
 // Function to hash a password using the provided salt
 export default class Authentication {

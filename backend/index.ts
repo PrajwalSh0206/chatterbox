@@ -5,9 +5,9 @@ import morgan from "morgan";
 import sequelize from "./src/models";
 import cors from "cors";
 import AuthMiddleware from "./src/middleware/authMiddleware";
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
 import { ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketData } from "./src/dto/socket";
-import { handleConnection } from "./src/sockets/connection";
+import { handleConnection, handleDisconnection } from "./src/sockets/connection";
 import messageHandler from "./src/sockets/messageHandler";
 const app = express();
 const http = require("http");
@@ -36,9 +36,10 @@ io.use((socket, next) => {
 });
 
 // Socket.IO events
-io.on("connection", (socket) => {
+io.on("connection", (socket: Socket) => {
   handleConnection(io, socket);
   messageHandler(io, socket);
+  handleDisconnection(io, socket);
   socket.on("disconnect", () => {
     console.log("User disconnected");
   });

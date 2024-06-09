@@ -14,7 +14,9 @@ const SideBar: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (recieverDetails.length) setUserDetails(recieverDetails);
+    if (recieverDetails.length) {
+      setUserDetails(recieverDetails);
+    }
   }, [recieverDetails]);
 
   const setReciever = (receiver: socketUserDto) => {

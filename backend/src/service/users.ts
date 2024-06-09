@@ -1,5 +1,5 @@
 import winston from "winston";
-import { createUserDto, findUserDto } from "../dto/user.dto";
+import { createUserDto, findUserDto } from "../dto/user";
 import User from "../models/users.model";
 import { CustomError } from "../utils/CustomError";
 

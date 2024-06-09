@@ -17,17 +17,27 @@ const recieverSlice = createSlice({
   name: "recieverDetails",
   initialState,
   reducers: {
-    storeRecieverDetails: (state, actions: PayloadAction<UserDto>) => {
-      state.receivers.push({
-        userId: actions.payload.userId,
-        username: actions.payload.username,
-        socketId: actions.payload.socketId,
-        online: actions.payload.online,
-        messages: [],
-      });
+    storeRecieverDetails: (state, actions: PayloadAction<Array<UserDto>>) => {
+      const userDetails = actions.payload;
+      for (const user of userDetails) {
+        const userName = user.username;
+        const index = state.receivers.findIndex((value) => value.username == userName);
+
+        if (index == -1) {
+          state.receivers.push({
+            userId: user.userId,
+            username: user.username,
+            socketId: user.socketId,
+            online: user.online,
+            messages: [],
+          });
+        } else {
+          state.receivers[index].socketId = user.socketId;
+        }
+      }
     },
     updateRecieverDetails: (state, actions: PayloadAction<updateRecieverDto>) => {
-      const index = state.receivers.findIndex((value) => (value.username = actions.payload.username));
+      const index = state.receivers.findIndex((value) => (value.username == actions.payload.username));
       if (index != -1) {
         state.receivers[index].socketId = actions.payload.socketId;
         state.receivers[index].online = true;
@@ -47,7 +57,7 @@ const recieverSlice = createSlice({
       };
     },
     saveMessages: (state, actions: PayloadAction<messagePayloadDto>) => {
-      const index = state.receivers.findIndex((value) => (value.socketId = actions.payload.socketId));
+      const index = state.receivers.findIndex((value) => (value.socketId == actions.payload.socketId));
 
       if (index != -1) {
         state.receivers[index].messages.push({

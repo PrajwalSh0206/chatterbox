@@ -31,7 +31,7 @@ const Chat: React.FC = () => {
 
   //const socketConnection
   const handleSocketConnection = (name: string) => {
-    const socket = io("http://localhost:5000", { autoConnect: false });
+    const socket = io("http://localhost:5000", { autoConnect: true });
     socket.auth = { username: name };
     socket.connect();
 
@@ -39,16 +39,8 @@ const Chat: React.FC = () => {
       setNewSocket(socket);
     });
     socket.on("sendUser", (users: Array<socketUserDto>) => {
+      dispatchEvent(storeRecieverDetails, users);
       console.log("users", users);
-      for (const user of users) {
-        const receieverPayload = {
-          userId: user.userId,
-          username: user.username,
-          online: user.online,
-          socketId: user.socketId,
-        };
-        dispatchEvent(storeRecieverDetails, receieverPayload);
-      }
     });
     socket.on("private message", ({ content, from, timeStamp }) => {
       console.log("from", from, content, timeStamp);
@@ -110,12 +102,8 @@ const Chat: React.FC = () => {
     authToken();
   }, []);
 
-  useEffect(() => {
-    console.log(selectedRecieverDetail, "MessageCheck");
-  }, [selectedRecieverDetail]);
-
   const onMessage = () => {
-    console.log(selectedRecieverDetail.socketId, message, selectedRecieverDetail.messages);
+    console.log("message receieved", selectedRecieverDetail.socketId, message, selectedRecieverDetail.messages);
     if (selectedRecieverDetail?.socketId && message) {
       const timeStamp = new Date().toISOString();
       newSocket?.emit("private message", {

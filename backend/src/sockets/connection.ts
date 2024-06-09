@@ -12,12 +12,14 @@ export const handleConnection = async (io: any, socket: Socket) => {
   const socketUserList: Array<userDto> = [];
 
   const socketIOClient = io.of("/").sockets;
+
   for (let [id, socket] of socketIOClient) {
     socketUserList.push({
       socketId: id,
       username: socket.data.username,
     });
   }
+  logger.info("online user", JSON.stringify(socketUserList));
 
   let userDetails =
     (await fetchAllUserDetails(
@@ -48,5 +50,12 @@ export const handleConnection = async (io: any, socket: Socket) => {
   socket.broadcast.emit("user connected", {
     socketId: socket.id,
     username: socket.data.username,
+  });
+};
+
+export const handleDisconnection = async (io: any, socket: Socket) => {
+  const logger = new Logger(`Socket: ${socket.id}`).createLogger();
+  socket.on("disconnect", (reason) => {
+    logger.info("Disconnected", socket.id, socket.data.username);
   });
 };
