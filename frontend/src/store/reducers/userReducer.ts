@@ -1,11 +1,8 @@
 // reducers/counterReducer.ts
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { UserDto } from '../../dto/user';
 
-interface UserState {
-  username: string;
-}
-
-const initialState: UserState = {
+const initialState: UserDto = {
   username: ""
 };
 
@@ -13,7 +10,7 @@ const userSlice = createSlice({
   name: 'userDetails',
   initialState,
   reducers: {
-    storeUserDetails: (state,actions: PayloadAction<UserState>) => {
+    storeUserDetails: (state,actions: PayloadAction<UserDto>) => {
       state.username = actions.payload.username;
     },
   },

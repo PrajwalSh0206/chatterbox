@@ -1,12 +1,8 @@
 // reducers/counterReducer.ts
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { SnackbarDto } from "../../dto/snackbar";
 
-interface SnackbarState {
-  message: string;
-  visible: boolean;
-}
-
-const initialState: SnackbarState = {
+const initialState: SnackbarDto = {
   message: "",
   visible: false,
 };
@@ -15,7 +11,7 @@ const snackbarDetails = createSlice({
   name: "snackbar",
   initialState,
   reducers: {
-    enableSnackbar: (state, actions: PayloadAction<SnackbarState>) => {
+    enableSnackbar: (state, actions: PayloadAction<SnackbarDto>) => {
       state.message = actions.payload.message;
       state.visible = true;
     },

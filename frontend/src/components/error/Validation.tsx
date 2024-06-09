@@ -1,16 +1,6 @@
 import React, { useEffect } from "react";
 import "./Validation.scss";
-
-interface validationConditionsDto {
-  regex: RegExp | string;
-  message: string;
-}
-
-interface validationdDto {
-  value: string;
-  validationConditions: Array<validationConditionsDto>;
-  setError: any;
-}
+import { validationdDto } from "../../dto/validation/validation";
 
 const Validation: React.FC<validationdDto> = ({ value, validationConditions, setError }) => {
   const handleValidation = (regex: RegExp | string) => {

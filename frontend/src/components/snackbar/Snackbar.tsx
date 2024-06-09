@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { SnackbarDto } from "../../../dto/components";
 import "./Snackbar.scss";
 import { useDispatch } from "react-redux";
 import { disableSnackbar } from "../../store/reducers/snackBarReducer";
+import { SnackbarDto } from "../../dto/components/snackbar";
 
 const Snackbar: React.FC<SnackbarDto> = ({ message, visible = false }) => {
   const dispatch = useDispatch();

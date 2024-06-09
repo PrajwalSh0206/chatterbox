@@ -10,6 +10,7 @@ import { Socket, io } from "socket.io-client";
 import { RootState } from "../../store/store";
 import { storeUserDetails } from "../../store/reducers/userReducer";
 import { saveMessages, storeRecieverDetails, updateRecieverDetails } from "../../store/reducers/recieverReducer";
+import { ReceiverDto } from "../../dto/reciever";
 
 const Chat: React.FC = () => {
   const dispatch = useDispatch();
@@ -38,7 +39,7 @@ const Chat: React.FC = () => {
     socket.on("connect", () => {
       setNewSocket(socket);
     });
-    socket.on("sendUser", (users: Array<socketUserDto>) => {
+    socket.on("sendUser", (users: Array<ReceiverDto>) => {
       dispatchEvent(storeRecieverDetails, users);
       console.log("users", users);
     });
@@ -69,13 +70,6 @@ const Chat: React.FC = () => {
       onMessage();
     }
   };
-
-  interface socketUserDto {
-    userId: string;
-    username: string;
-    online: boolean;
-    socketId?: string;
-  }
 
   const authToken = async () => {
     const token = localStorage.getItem("token");

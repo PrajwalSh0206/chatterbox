@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import PasswordInput from "../../../components/inputs/PasswordInput";
 import UsernameInput from "../../../components/inputs/UsernameInput";
 import { Authenticator } from "../../../services/Authenticator";
-import { userSignUpPayloadDto } from "../../../../dto/apiService";
 import CustomError from "../../../services/CustomError";
 import { REGEX, VALIDATION } from "../../../constants/common";
 import { useDispatch } from "react-redux";
 import { enableSnackbar } from "../../../store/reducers/snackBarReducer";
 import Validation from "../../../components/error/Validation";
+import { userSignUpPayloadDto } from "../../../dto/apiService";
 
 interface signupDto {
   setPageType: any;

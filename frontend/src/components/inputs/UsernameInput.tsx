@@ -1,5 +1,5 @@
 import React from "react";
-import { usernameDto } from "../../../dto/components";
+import { usernameDto } from "../../dto/components/login";
 
 const UsernameInput: React.FC<usernameDto> = ({ username, setUsername }) => {
   return (

@@ -1,8 +1,9 @@
 // reducers/counterReducer.ts
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ReceiverDto, RecieverState, UserDto, messagePayloadDto, updateRecieverDto } from "../../../dto/socket";
+import {  messagePayloadDto } from "../../dto/message";
+import { ChatDto, ReceiverContentDto, ReceiverDto, updateRecieverDto } from "../../dto/reciever";
 
-const initialState: RecieverState = {
+const initialState: ChatDto = {
   receivers: [],
   selectedReceiver: {
     messages: [],
@@ -17,7 +18,7 @@ const recieverSlice = createSlice({
   name: "recieverDetails",
   initialState,
   reducers: {
-    storeRecieverDetails: (state, actions: PayloadAction<Array<UserDto>>) => {
+    storeRecieverDetails: (state, actions: PayloadAction<Array<ReceiverContentDto>>) => {
       const userDetails = actions.payload;
       for (const user of userDetails) {
         const userName = user.username;

@@ -1,5 +1,5 @@
 import { API_URL } from "../constants/url";
-import { userSignUpPayloadDto } from "../../dto/apiService";
+import { userSignUpPayloadDto } from "../dto/apiService";
 import AxiosHandler from "./AxiosHandler";
 
 export class Authenticator {

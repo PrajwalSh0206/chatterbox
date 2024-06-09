@@ -3,8 +3,8 @@ import "./SideBar.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { storeSelectedRecieverDetails } from "../../../store/reducers/recieverReducer";
 import { RootState } from "../../../store/store";
-import { ReceiverDto, socketUserDto } from "../../../../dto/socket";
 import { useNavigate } from "react-router-dom";
+import { ReceiverDto } from "../../../dto/reciever";
 
 const SideBar: React.FC = () => {
   const recieverDetails = useSelector((state: RootState) => state.receiever.receivers);
@@ -19,7 +19,7 @@ const SideBar: React.FC = () => {
     }
   }, [recieverDetails]);
 
-  const setReciever = (receiver: socketUserDto) => {
+  const setReciever = (receiver: ReceiverDto) => {
     const payload = {
       userId: receiver.userId,
       online: receiver.online,
