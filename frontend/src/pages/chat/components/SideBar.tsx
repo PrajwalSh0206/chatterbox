@@ -94,7 +94,7 @@ const SideBar: React.FC<SideBarDto> = ({socket}) => {
                     </div>
                   )}
                 </div>
-                <div className={`${value.online ? "green" : ""} status`}></div>
+                <div className={`${value.online ? "green" : "red"} status`}></div>
                 {/* Online Status */}
               </button>
             );

@@ -9,7 +9,7 @@ export const handleConnection = async (io: any, socket: Socket) => {
   const logger = new Logger(`Socket: ${socket.id}`).createLogger();
 
   logger.info(`A user connected ${socket.id} ${socket.data.username}`);
-  const onlineUserDetails = listUsers(io, logger);
+  const onlineUserDetails = await listUsers(io, logger);
   logger.info(`users Info ${JSON.stringify(onlineUserDetails)}`);
   socket.emit("listUsers", onlineUserDetails);
   socket.broadcast.emit("listUsers", onlineUserDetails);
@@ -17,8 +17,8 @@ export const handleConnection = async (io: any, socket: Socket) => {
 
 export const handleDisconnection = async (io: any, socket: Socket) => {
   const logger = new Logger(`Socket: ${socket.id}`).createLogger();
-  socket.on("disconnect", (reason) => {
-    const onlineUserDetails = listUsers(io, logger);
+  socket.on("disconnect", async (reason) => {
+    const onlineUserDetails = await listUsers(io, logger);
     logger.info(`users Info ${JSON.stringify(onlineUserDetails)}`);
     socket.broadcast.emit("listUsers", onlineUserDetails);
   });
