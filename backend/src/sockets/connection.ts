@@ -24,7 +24,6 @@ export const handleConnection = async (io: any, socket: Socket) => {
   let userDetails =
     (await fetchAllUserDetails(
       {
-        username: { [Op.notLike]: socket.data.username },
       },
       logger,
       ["userId", "username"]
@@ -44,13 +43,10 @@ export const handleConnection = async (io: any, socket: Socket) => {
   }
 
   logger.info(`users Info ${JSON.stringify(onlineUserDetails)}`);
+  
+  socket.emit("listUsers", onlineUserDetails);
 
-  socket.emit("sendUser", onlineUserDetails);
-
-  socket.broadcast.emit("user connected", {
-    socketId: socket.id,
-    username: socket.data.username,
-  });
+  socket.broadcast.emit("listUsers", onlineUserDetails);
 };
 
 export const handleDisconnection = async (io: any, socket: Socket) => {

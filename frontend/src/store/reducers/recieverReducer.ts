@@ -34,6 +34,7 @@ const recieverSlice = createSlice({
           });
         } else {
           state.receivers[index].socketId = user.socketId;
+          state.receivers[index].online=user.online
         }
       }
     },

@@ -39,10 +39,16 @@ const Chat: React.FC = () => {
     socket.on("connect", () => {
       setNewSocket(socket);
     });
-    socket.on("sendUser", (users: Array<ReceiverDto>) => {
-      dispatchEvent(storeRecieverDetails, users);
-      console.log("users", users);
+
+    socket.on("listUsers", (users: Array<ReceiverDto>) => {
+      users = users.filter((value) => value.username != name);
+
+      dispatchEvent(
+        storeRecieverDetails,
+        users
+      );
     });
+
     socket.on("private message", ({ content, from, timeStamp }) => {
       console.log("from", from, content, timeStamp);
 
@@ -54,14 +60,6 @@ const Chat: React.FC = () => {
       };
       dispatchEvent(saveMessages, messagePayload);
       console.log("from se", selectedRecieverDetail, recieverDetails, messagePayload);
-    });
-    socket.on("user connected", (user) => {
-      const updateReceieverPayload = {
-        socketId: user.socketId,
-        username: user.username,
-      };
-      dispatch(updateRecieverDetails(updateReceieverPayload));
-      console.log(recieverDetails, user, "new connection");
     });
   };
 
@@ -75,6 +73,7 @@ const Chat: React.FC = () => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
+        debugger;
         const authObj = new Authenticator();
         const response = await authObj.authToken(token);
         const {
@@ -120,7 +119,7 @@ const Chat: React.FC = () => {
   return (
     <div id="chat">
       <main>
-        <SideBar></SideBar>
+        <SideBar socket={newSocket}></SideBar>
         {selectedRecieverDetail.username && (
           <section>
             <nav>

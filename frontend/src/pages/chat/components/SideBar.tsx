@@ -6,7 +6,11 @@ import { RootState } from "../../../store/store";
 import { useNavigate } from "react-router-dom";
 import { ReceiverDto } from "../../../dto/reciever";
 
-const SideBar: React.FC = () => {
+interface SideBarDto{
+  socket:any
+}
+
+const SideBar: React.FC<SideBarDto> = ({socket}) => {
   const recieverDetails = useSelector((state: RootState) => state.receiever.receivers);
   const [userDetails, setUserDetails] = useState<Array<ReceiverDto>>([]);
   const [searchText, setSearchText] = useState("");
@@ -40,6 +44,7 @@ const SideBar: React.FC = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    socket.disconnect();
     navigate("/");
   };
 
