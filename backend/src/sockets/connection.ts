@@ -1,6 +1,7 @@
 import { Socket } from "socket.io";
 import { fetchAllUserDetails } from "../service/users";
 import { Logger } from "../utils/Logger";
+import winston from "winston";
 import { Op } from "sequelize";
 import { userDto } from "../dto/socket";
 
@@ -8,7 +9,22 @@ export const handleConnection = async (io: any, socket: Socket) => {
   const logger = new Logger(`Socket: ${socket.id}`).createLogger();
 
   logger.info(`A user connected ${socket.id} ${socket.data.username}`);
+  const onlineUserDetails = listUsers(io, logger);
+  logger.info(`users Info ${JSON.stringify(onlineUserDetails)}`);
+  socket.emit("listUsers", onlineUserDetails);
+  socket.broadcast.emit("listUsers", onlineUserDetails);
+};
 
+export const handleDisconnection = async (io: any, socket: Socket) => {
+  const logger = new Logger(`Socket: ${socket.id}`).createLogger();
+  socket.on("disconnect", (reason) => {
+    const onlineUserDetails = listUsers(io, logger);
+    logger.info(`users Info ${JSON.stringify(onlineUserDetails)}`);
+    socket.broadcast.emit("listUsers", onlineUserDetails);
+  });
+};
+
+const listUsers = async (io: any, logger: winston.Logger ) => {
   const socketUserList: Array<userDto> = [];
 
   const socketIOClient = io.of("/").sockets;
@@ -41,17 +57,5 @@ export const handleConnection = async (io: any, socket: Socket) => {
     }
     onlineUserDetails.push(result);
   }
-
-  logger.info(`users Info ${JSON.stringify(onlineUserDetails)}`);
-  
-  socket.emit("listUsers", onlineUserDetails);
-
-  socket.broadcast.emit("listUsers", onlineUserDetails);
-};
-
-export const handleDisconnection = async (io: any, socket: Socket) => {
-  const logger = new Logger(`Socket: ${socket.id}`).createLogger();
-  socket.on("disconnect", (reason) => {
-    logger.info("Disconnected", socket.id, socket.data.username);
-  });
-};
+  return onlineUserDetails;
+}
