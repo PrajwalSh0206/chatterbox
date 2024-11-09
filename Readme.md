@@ -1,87 +1,50 @@
-# Chat Application Using Socket IO
+# React + TypeScript + Vite
 
-## Overview
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-This is a chat application built using Express, React, PostgreSQL, and Socket.IO. It allows users to communicate in real-time using a web interface.
+Currently, two official plugins are available:
 
-## Prerequisites
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-Before running the application, ensure you have the following installed:
+## Expanding the ESLint configuration
 
-- [Node.js](https://nodejs.org/) (version 18 or above is recommended)
-- [Docker](https://www.docker.com/)
-- [Docker Compose](https://docs.docker.com/compose/install/)
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-## Installation
+- Configure the top-level `parserOptions` property like this:
 
-1. **Clone the repository:**
+```js
+export default tseslint.config({
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
 
-    ```bash
-    git clone <https://github.com/your-username/chat-application.git>
-    cd chat-application
-    ```
+- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
+- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-2. **Install dependencies For Frontend:**
+```js
+// eslint.config.js
+import react from 'eslint-plugin-react'
 
-    ```bash
-    - cd backend && npm i
-    ```
-
-3. **Install dependencies For Backend:**
-
-    ```bash
-    - cd backend && npm i
-    ```
-
-## Running the Application
-
-### Backend
-
-1. **Navigate to the backend directory:**
-
-    ```bash
-    cd backend
-    ```
-
-2. **Start the database server:**
-
-    ```bash
-    npm run db:dev:restart
-    ```
-
-3. **Start the backend server**
-
-    ```bash
-    npm run start
-    ```
-
-### Frontend
-
-1. **Navigate to the backend directory:**
-
-    ```bash
-    cd frontend
-    ```
-
-2. **Start the application:**
-
-    ```bash
-    npm run start
-    ```
-
-3. **Open the application in your browser:**
-Navigate to `http://localhost:3000` to access the chat application.
-
-## Screenshots
-
-### Login Page
-
-![Login Page](screenshots/login.png)
-
-### Signup Page
-
-![Signup Page](screenshots/signup.png)
-
-### Chat Page
-
-![Chat Page](screenshots/chat.png)
+export default tseslint.config({
+  // Set the react version
+  settings: { react: { version: '18.3' } },
+  plugins: {
+    // Add the react plugin
+    react,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended rules
+    ...react.configs.recommended.rules,
+    ...react.configs['jsx-runtime'].rules,
+  },
+})
+```

@@ -1,0 +1,7 @@
+{
+  "imports": {
+    "@deno-lib/logger": "jsr:@deno-lib/logger@^1.1.6",
+    "@oak/oak": "jsr:@oak/oak@^17.1.3",
+    "@tajpouria/cors": "jsr:@tajpouria/cors@^1.2.1"
+  }
+}

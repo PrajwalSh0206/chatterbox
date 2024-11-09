@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:17.0-alpine
+    container_name: chatter-box-postgres-db
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}     
+      POSTGRES_PASSWORD: ${DB_PASSWORD} 
+      POSTGRES_DB: ${DB_NAME}         
+    ports:
+      - "5432:5432"    
+    networks:
+      - pgnetwork                   
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data 
+
+volumes:
+  pgdata:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  pgnetwork:
