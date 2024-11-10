@@ -4,9 +4,10 @@ import routers from "./routes/index.ts";
 import loggerMiddleware from "./middleware/logger.ts";
 import CustomLogger from "./utils/logger.ts";
 import rateLimiter from "./middleware/rate-limiter.ts";
+import { db } from "./config/db/index.ts";
+import CustomError from "./utils/custom-error.ts";
 const router = new Router();
 const PORT = 8000;
-const logger = new CustomLogger("Server Listening At Port");
 
 const app = new Application();
 app.use(oakCors());
@@ -20,5 +21,11 @@ app.use(routers.routes());
 app.use(router.allowedMethods());
 // Database Setup Starts
 
-logger.info(PORT.toString());
-await app.listen({ port: PORT });
+try {
+  db.connect();
+  new CustomLogger("Server Connected at Port").info(PORT.toString());
+} catch (error) {
+  let err = new CustomError("Something Went Wrong");
+  if (error instanceof Error) err = error;
+  new CustomLogger("Server Error").error(err.message);
+}

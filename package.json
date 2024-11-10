@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "dev": "deno task dev:api & deno task dev:vite",
-    "dev:api": "deno run --allow-env --allow-net server/main.ts",
+    "dev:api": "deno run --allow-env --allow-net --allow-read server/main.ts",
     "dev:vite": "deno run -A npm:vite"
   },
   "dependencies": {
