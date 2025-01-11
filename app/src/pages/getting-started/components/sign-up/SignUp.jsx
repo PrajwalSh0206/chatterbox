@@ -2,13 +2,30 @@ import { useState } from "react";
 import PasswordInput from "../password-input/PasswordInput";
 import Validation from "../../../../components/validation/Validation";
 import { VALIDATION_REGEX } from "../../../../constants";
+import useAuth from "../../../../hooks/useAuth";
+import { useNavigate } from "react-router";
 
 const SignUp = () => {
+  const [username, setUserName] = useState("");
+
   const [password, setPassword] = useState("");
   const [passwordErr, setPasswordErr] = useState(true);
 
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [confirmPasswordErr, setConfirmPasswordErr] = useState("");
+  const [confirmPasswordErr, setConfirmPasswordErr] = useState(true);
+
+  const { signUp } = useAuth();
+  let navigate = useNavigate();
+
+  const handleSignUp = async () => {
+    try {
+      await signUp({ username, password, repeat_password: confirmPassword });
+      console.log("SignUp Successfully");
+      navigate("/chat");
+    } catch (err) {
+      console.error("Error", err);
+    }
+  };
 
   return (
     <form className="w-full flex flex-col space-y-3">
@@ -20,15 +37,22 @@ const SignUp = () => {
             clipRule="evenodd"
           />
         </svg>
-        <input className=" w-full outline-none rounded-md placeholder-gray-500" placeholder="Enter a username"></input>
+        <input
+          value={username}
+          onChange={(e) => setUserName(e.target.value)}
+          className=" w-full outline-none rounded-md placeholder-gray-500"
+          placeholder="Enter a username"
+        ></input>
       </div>
 
       <PasswordInput text={password} setText={setPassword}></PasswordInput>
+
       {password != "" && (
         <Validation setError={setPasswordErr} value={password} validationConditions={VALIDATION_REGEX.LOGIN_PAGE.PASSWORD_CONDITION}></Validation>
       )}
 
       <PasswordInput text={confirmPassword} setText={setConfirmPassword}></PasswordInput>
+
       {confirmPassword != "" && password != "" && (
         <Validation
           setError={setConfirmPasswordErr}
@@ -37,7 +61,12 @@ const SignUp = () => {
         ></Validation>
       )}
 
-      <button type="button" className="bg-gray-700 rounded-md transition-all transform active:scale-95 text-white p-3 text-center w-full">
+      <button
+        onClick={handleSignUp}
+        type="button"
+        disabled={confirmPasswordErr || passwordErr || username == ""}
+        className="bg-gray-700 disabled:bg-gray-500 rounded-md transition-all transform active:scale-95 text-white p-3 text-center w-full"
+      >
         Sign Up
       </button>
     </form>

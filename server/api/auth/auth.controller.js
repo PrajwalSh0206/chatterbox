@@ -1,4 +1,4 @@
-const { loginService, signUpService } = require("./auth.service");
+const { loginService, signUpService, getUserInfoService } = require("./auth.service");
 
 const login = (req, res, next) => {
   try {
@@ -22,7 +22,19 @@ const signUp = (req, res, next) => {
   }
 };
 
+const getUserInfo = (req, res, next) => {
+  try {
+    let { logger } = req.ctx;
+    logger = logger.child("Controller");
+    logger.info("Entered");
+    getUserInfoService(req, res, logger);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   login,
   signUp,
+  getUserInfo,
 };

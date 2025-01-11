@@ -1,13 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SignUp from "./components/sign-up/SignUp";
-import Login from "./components/login/login";
+import Login from "./components/login/Login";
+import { useNavigate } from "react-router";
+import useAuth from "../../hooks/useAuth";
 
 const GettingStarted = () => {
   const [pageType, setPageType] = useState("login");
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && user) {
+      navigate("/chat");
+    }
+  }, [loading]);
 
   return (
     <div className="w-screen h-screen flex flex-col justify-center items-center">
-      <div id="card" className="w-4/12 flex flex-col space-y-2 text-gray-600 items-center border-2 shadow-md rounded-md p-7">
+      <div id="card" className="w-8/12 lg:w-4/12 flex flex-col space-y-2 text-gray-600 items-center border-2 shadow-md rounded-md p-7">
         <div className="w-3/12 bg-gray-700 text-white p-5 rounded-full">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
             <path

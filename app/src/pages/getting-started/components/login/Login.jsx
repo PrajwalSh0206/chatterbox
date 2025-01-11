@@ -1,8 +1,23 @@
 import { useState } from "react";
 import PasswordInput from "../password-input/PasswordInput";
+import useAuth from "../../../../hooks/useAuth";
+import { useNavigate } from "react-router";
 
 const Login = () => {
+  const { login } = useAuth();
   const [password, setPassword] = useState("");
+  const [username, setUserName] = useState("");
+  let navigate = useNavigate();
+
+  const handleLogin = async () => {
+    try {
+      await login({ username, password });
+      console.log("Login Successfully");
+      navigate("/chat");
+    } catch (err) {
+      console.error("Error", err);
+    }
+  };
 
   return (
     <form className="w-full flex flex-col space-y-3">
@@ -14,12 +29,22 @@ const Login = () => {
             clipRule="evenodd"
           />
         </svg>
-        <input className=" w-full outline-none rounded-md placeholder-gray-500" placeholder="Enter a username"></input>
+        <input
+          value={username}
+          onChange={(e) => setUserName(e.target.value)}
+          className=" w-full outline-none rounded-md placeholder-gray-500"
+          placeholder="Enter a username"
+        ></input>
       </div>
 
       <PasswordInput setText={setPassword} text={password}></PasswordInput>
 
-      <button type="button" className="bg-gray-700 rounded-md transition-all transform active:scale-95 text-white p-3 text-center w-full">
+      <button
+        disabled={password == "" || username == ""}
+        onClick={handleLogin}
+        type="button"
+        className="bg-gray-700 disabled:bg-gray-500 rounded-md transition-all transform active:scale-95 text-white p-3 text-center w-full"
+      >
         Join
       </button>
     </form>

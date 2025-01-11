@@ -6,9 +6,14 @@ const createToken = (data) => {
   return token;
 };
 
-const verifyToken = (token) => {
-  const isVerified = jwt.verify(token, SECRET_KEY);
-  return isVerified;
+const verifyToken = (token, logger) => {
+  try {
+    const isVerified = jwt.verify(token, SECRET_KEY);
+    return isVerified;
+  } catch (error) {
+    logger.error(`Token Validation Failed`, JSON.stringify(error));
+    return false;
+  }
 };
 
 module.exports = { createToken, verifyToken };

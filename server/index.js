@@ -9,6 +9,7 @@ const { ReqCtx } = require("./middleware/ctx-logger");
 const { errorHandler } = require("./middleware/error-handler");
 const { sequelize } = require("./models");
 const { FRONTEND_URL } = require("./constants");
+const { authHandler } = require("./middleware/authentication");
 const logger = new Logger("Main");
 
 const app = express();

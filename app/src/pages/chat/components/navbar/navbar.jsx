@@ -1,4 +1,4 @@
-const Navbar = () => {
+const Navbar = ({ username = "0" }) => {
   return (
     <div className="w-full border-2 border-gray-300 px-4 p-3 rounded-md flex items-center justify-between space-x-2 bg-white">
       <div className="flex items-center space-x-2">
@@ -25,7 +25,7 @@ const Navbar = () => {
           ></path>
         </svg>
       </button> */}
-      <div className="bg-indigo-500 text-white w-8 h-8 rounded-full flex items-center justify-center">P</div>
+      <div className="bg-indigo-500 text-white w-8 h-8 rounded-full flex items-center justify-center">{username}</div>
     </div>
   );
 };

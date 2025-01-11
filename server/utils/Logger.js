@@ -59,7 +59,8 @@ class Logger {
    *
    * @param {string} msg
    */
-  info(msg) {
+  info(...msg) {
+    msg = msg.join(" | ");
     winstonLogger.info(this.formatLog(msg));
   }
 
@@ -67,7 +68,8 @@ class Logger {
    *
    * @param {string} msg
    */
-  error(msg) {
+  error(...msg) {
+    msg = msg.join(" | ");
     winstonLogger.error(this.formatLog(msg));
   }
 
@@ -75,7 +77,8 @@ class Logger {
    *
    * @param {string} msg
    */
-  debug(msg) {
+  debug(...msg) {
+    msg = msg.join(" | ");
     winstonLogger.debug(this.formatLog(msg));
   }
 }

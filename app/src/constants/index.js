@@ -15,10 +15,12 @@ export const VALIDATION_REGEX = {
         regex: /\d/,
         message: "Must Consist Digit",
       },
-      {
-        regex: /[!@#$%^&*()_+]/,
-        message: "Must Consist Special Character",
-      },
     ],
   },
 };
+
+const CONSTANTS = {
+  BACKEND_URL: "http://localhost:8000",
+};
+
+export default CONSTANTS;
