@@ -25,7 +25,6 @@ const useAuth = () => {
   };
 
   const logout = () => {
-    authService.logout();
     setUser(null);
     localStorage.removeItem("token"); // Remove token
   };
@@ -34,15 +33,22 @@ const useAuth = () => {
     const fetchUser = async () => {
       try {
         const userData = await authService.getCurrentUser();
-        setUser({ username: userData.username });
+        const { username, userId } = userData;
+        setUser({ username: username, userId });
       } catch (err) {
         setUser(null);
+        logout();
       } finally {
         setLoading(false);
       }
     };
 
-    fetchUser();
+    const authToken = localStorage.getItem("token"); // Fetch token from localStorage
+    if (authToken) {
+      fetchUser();
+    } else {
+      setLoading(false);
+    }
   }, []);
 
   return { user, loading, login, signUp, logout };

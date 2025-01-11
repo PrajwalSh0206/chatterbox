@@ -21,6 +21,7 @@ export const VALIDATION_REGEX = {
 
 const CONSTANTS = {
   BACKEND_URL: "http://localhost:8000",
+  SOCKET_URL: "http://localhost:8000",
 };
 
 export default CONSTANTS;

@@ -85,6 +85,7 @@ const getUserInfoService = async (req, res, logger) => {
   return res.send({
     message: "Valid User",
     username,
+    userId: id,
   });
 };
 

@@ -9,11 +9,14 @@ const { ReqCtx } = require("./middleware/ctx-logger");
 const { errorHandler } = require("./middleware/error-handler");
 const { sequelize } = require("./models");
 const { FRONTEND_URL } = require("./constants");
-const { authHandler } = require("./middleware/authentication");
+const { createSocketServer } = require("./sockets");
 const logger = new Logger("Main");
 
 const app = express();
 const server = http.createServer(app);
+
+// Initialize WebSocket server
+createSocketServer(server);
 
 const NODE_PORT = process.env.NODE_PORT || 3000;
 
