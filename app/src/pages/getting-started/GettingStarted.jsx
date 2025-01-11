@@ -7,7 +7,7 @@ const GettingStarted = () => {
 
   return (
     <div className="w-screen h-screen flex flex-col justify-center items-center">
-      <div id="card" className="w-4/12 flex flex-col space-y-3 text-gray-600 items-center border-2 shadow-md rounded-md p-7">
+      <div id="card" className="w-4/12 flex flex-col space-y-2 text-gray-600 items-center border-2 shadow-md rounded-md p-7">
         <div className="w-3/12 bg-gray-700 text-white p-5 rounded-full">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
             <path
@@ -17,10 +17,10 @@ const GettingStarted = () => {
             />
           </svg>
         </div>
-        <p id="content" className="text-2xl text-gray-800">
-          {pageType == "login" ? "Login" : "SignUp"}
+        <p className="text-2xl text-gray-800">Connect</p>
+        <p id="subtext" className="pb-2">
+          {pageType == "login" ? "Lets Connect With Your Friends" : "Sign up and connect with friends!"}
         </p>
-        <p id="subtext">{pageType == "login" ? "Lets Connect With Your Friends" : "Sign up and connect with friends!"}</p>
         {pageType == "login" ? <Login></Login> : <SignUp></SignUp>}
         <div id="line" className="bg-gray-600 w-full h-1 rounded-full"></div>
         {pageType == "login" ? (
