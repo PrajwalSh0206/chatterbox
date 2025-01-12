@@ -26,7 +26,7 @@ const loginService = async (req, res, logger) => {
   }
 
   const token = createToken({
-    username: isUserExist.username,
+    username,
     userId: isUserExist.id,
   });
 

@@ -4,12 +4,11 @@ const { Messages } = require("./Messages");
 const { Users } = require("./Users");
 
 // Associations
-Users.belongsToMany(Users, {
-  through: Chats,
-  as: "Participants",
-  foreignKey: "userId1",
-  otherKey: "userId2",
-});
+Users.hasMany(Chats, { as: "Chats1", foreignKey: "user1Id" });
+Users.hasMany(Chats, { as: "Chats2", foreignKey: "user2Id" });
+
+Chats.belongsTo(Users, { as: "User1", foreignKey: "user1Id" });
+Chats.belongsTo(Users, { as: "User2", foreignKey: "user2Id" });
 
 Chats.hasMany(Messages, { foreignKey: "chatId" });
 Messages.belongsTo(Chats, { foreignKey: "chatId" });

@@ -6,13 +6,13 @@ const authHandler = (excludedPaths = []) => {
     logger = logger.child("Authentication");
 
     const authHeader = req.headers["authorization"];
-    logger.info(authHeader);
 
-    if (!excludedPaths.includes(req.path)) {
+    if (excludedPaths.length == 0 || !excludedPaths.includes(req.path)) {
       const token = authHeader.split(" ")[1];
 
       if (token) {
         const userData = verifyToken(token, logger);
+        logger.info(JSON.stringify(userData));
         if (userData) {
           req.body.userData = userData;
           return next();

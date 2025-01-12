@@ -2,6 +2,7 @@ const { Server } = require("socket.io");
 const { FRONTEND_URL } = require("../constants");
 const userSocket = require("./userSocket");
 const { Logger } = require("../utils/logger");
+const messageSocket = require("./messageSocket");
 
 const createSocketServer = (server) => {
   const io = new Server(server, {
@@ -15,6 +16,7 @@ const createSocketServer = (server) => {
 
     // Register event handlers for different modules
     userSocket(io, socket, logger);
+    messageSocket(io, socket, logger);
 
     socket.on("disconnect", () => {
       logger.info(`Disconnected`);
