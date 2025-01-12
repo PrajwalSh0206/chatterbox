@@ -18,19 +18,16 @@ services:
       context: .
       dockerfile: Dockerfile.frontend.dev
     ports:
-      - "5173:5173"
+      - "3000:3000"
     depends_on:
-      - web
+      - server
     networks:
-      - backend
+      - frontend
 
-  web:
+  server:
     build: 
       context: .
       dockerfile: Dockerfile.backend.dev
-    volumes:
-      - ./server:/server
-      - /server/node_modules
     env_file:
       - .env 
     ports:
@@ -38,7 +35,7 @@ services:
     depends_on:
       - postgres
     networks:
-      - frontend
+      - backend
     command: "nodemon index.js"
     restart: always
     

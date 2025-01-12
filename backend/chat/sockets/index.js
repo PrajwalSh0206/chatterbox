@@ -1,7 +1,7 @@
 const { Server } = require("socket.io");
 const { FRONTEND_URL } = require("../constants");
 const userSocket = require("./userSocket");
-const { Logger } = require("../utils/logger");
+const { Logger } = require("../utils/Logger");
 const messageSocket = require("./messageSocket");
 
 const createSocketServer = (server) => {
