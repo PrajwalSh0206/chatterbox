@@ -2,20 +2,25 @@
 FROM node:18
 
 # Set working directory
-WORKDIR /server
+WORKDIR /backend
 
 # Copy package.json and install dependencies
 COPY ./backend/chat/package.json package.json
 COPY ./backend/chat/package-lock.json ./package-lock.json
 
-COPY ./backend/chat/install-bcrypt.sh /server/install-bcrypt.sh
+COPY ./backend/chat/install-bcrypt.sh /backend/install-bcrypt.sh
 
 # Copy backend source code
 COPY ./backend/chat .
 
-RUN chmod +x /server/install-bcrypt.sh
+# install new dependencies if any
+RUN npm install
 
-RUN /server/install-bcrypt.sh
+# uninstall the current bcrypt modules
+RUN npm uninstall bcrypt
+
+# install the bcrypt modules for the machine
+RUN npm install bcrypt
 
 # Install nodemon for hot-reloading
 RUN npm install -g nodemon
