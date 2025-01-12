@@ -10,10 +10,11 @@ const fetchMesageService = async (req, res, logger) => {
     chatId,
   };
 
-  const chatIdExist = await findMessages(["content", "senderId", "sentAt"], condition, 10, ["sentAt", "ASC"]);
+  const chatIdExist = await findMessages(["content", "senderId", "sentAt"], condition, 10, ["sentAt", "DESC"]);
   logger.info("Chat Data", chatIdExist.length);
   if (chatIdExist.length) {
-    return res.status(STATUS_CODE.OK).send({ chat: chatIdExist });
+    const sortedRecords = chatIdExist.sort((a, b) => a.sentAt - b.sentAt); // Sorting ascending by createdAt
+    return res.status(STATUS_CODE.OK).send({ chat: sortedRecords });
   } else {
     return res.status(STATUS_CODE.NO_CONTENT).send({ chat: [] });
   }

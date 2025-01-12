@@ -36,10 +36,8 @@ const Message = ({ user, userId, sendMessage, chat = [], setChat }) => {
   }, [chat?.length]);
 
   const handleMessage = (data) => {
-    if (data || message) {
-      sendMessage(data || message, { ...user, chatId });
-      setMessage("");
-    }
+    sendMessage(data || message, { ...user, chatId });
+    setMessage("");
   };
 
   const getTime = (date) => {
@@ -88,7 +86,7 @@ const Message = ({ user, userId, sendMessage, chat = [], setChat }) => {
           className="text-sm text-gray-500 outline-none w-full bg-gray-100 rounded-b-md"
         ></input>
         <button
-          onClick={handleMessage}
+          onClick={() => handleMessage()}
           disabled={message == ""}
           className="rounded-full active:scale-95 bg-gray-800 disabled:bg-gray-500 text-white p-2 flex items-center justify-center"
         >
