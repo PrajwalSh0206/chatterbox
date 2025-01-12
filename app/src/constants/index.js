@@ -20,7 +20,7 @@ export const VALIDATION_REGEX = {
 };
 
 const CONSTANTS = {
-  BACKEND_URL: "http://localhost:8000",
+  BACKEND_URL: { CHAT: "http://localhost:8000", ANALYSIS: "http://localhost:5002" },
   SOCKET_URL: "http://localhost:8000",
 };
 

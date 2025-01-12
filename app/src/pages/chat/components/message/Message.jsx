@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import chatService from "../../../../services/chatService";
+import analyzeService from "../../../../services/analysisService";
+import Feedback from "./Feedback/Feedback";
 
-const Message = ({ user, userId, sendMessage, chat, setChat }) => {
+const Message = ({ user, userId, sendMessage, chat = [], setChat }) => {
   const [message, setMessage] = useState("");
   const [chatId, setChatId] = useState();
+  const [sentiment, setSentiment] = useState("neutral");
+  const [sentimentResponse, setSentimentResponse] = useState([]);
 
   useEffect(() => {
     const checkChatId = async () => {
@@ -12,14 +16,30 @@ const Message = ({ user, userId, sendMessage, chat, setChat }) => {
       setChatId(chats.chatId);
 
       const messages = await chatService.fetchTopMessage(chats.chatId);
-      setChat(messages?.chat);
+      setChat([...messages?.chat]);
     };
     checkChatId();
   }, [user?.username]);
 
-  const handleMessage = () => {
-    sendMessage(message, { ...user, chatId });
-    setMessage("");
+  useEffect(() => {
+    const analysisCall = async () => {
+      if (chat.length && chat[chat.length - 1]["senderId"] != userId) {
+        const analysisData = await analyzeService.analyze({ text: chat[chat.length - 1]["content"] });
+        const { response, sentiment } = analysisData;
+        setSentiment(sentiment);
+        setSentimentResponse(response);
+      } else {
+        setSentiment("neutral");
+      }
+    };
+    analysisCall();
+  }, [chat?.length]);
+
+  const handleMessage = (data) => {
+    if (data || message) {
+      sendMessage(data || message, { ...user, chatId });
+      setMessage("");
+    }
   };
 
   const getTime = (date) => {
@@ -47,7 +67,7 @@ const Message = ({ user, userId, sendMessage, chat, setChat }) => {
         {chat.map((value) => (
           <div
             className={`p-2 flex flex-col border-2 rounded-md shadow-sm ${
-              value.senderId != userId ? "bg-indigo-500 text-white border-indigo-500" : "self-start"
+              value.senderId == userId ? "bg-indigo-500 text-white border-indigo-500" : "self-start"
             }`}
           >
             <p>{value.content}</p>
@@ -55,6 +75,8 @@ const Message = ({ user, userId, sendMessage, chat, setChat }) => {
           </div>
         ))}
       </div>
+
+      <Feedback sentiment={sentiment} sentimentResponse={sentimentResponse} handleMessage={handleMessage}></Feedback>
 
       {/* Input Handler */}
       <div className="p-2 border-t-2 border-gray-300 flex space-x-2 bg-gray-100 rounded-b-md">
