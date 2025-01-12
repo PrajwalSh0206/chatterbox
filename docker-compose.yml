@@ -12,7 +12,44 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - backend
-      
+
+  ui:
+    build: 
+      context: .
+      dockerfile: Dockerfile.frontend.dev
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+    networks:
+      - frontend
+
+  server:
+    build: 
+      context: .
+      dockerfile: Dockerfile.backend.dev
+    env_file:
+      - .env 
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    networks:
+      - backend
+    command: "nodemon index.js"
+    restart: always
+    
+  ml:
+    build: 
+      context: .
+      dockerfile: Dockerfile.ml.dev
+    ports:
+      - "5002:5002"
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_RUN_HOST=0.0.0.0
+      - FLASK_RUN_PORT=5002
+    
 volumes:
   postgres_data:
     driver: local

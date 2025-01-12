@@ -1,5 +1,5 @@
 const crypto = require("crypto");
-const { Logger } = require("../utils/logger");
+const { Logger } = require("../utils/Logger");
 
 /**
  *

@@ -1,0 +1,27 @@
+# Use a Node.js image for development
+FROM node:18
+
+# Set working directory
+WORKDIR /server
+
+# Copy package.json and install dependencies
+COPY ./backend/chat/package.json package.json
+COPY ./backend/chat/package-lock.json ./package-lock.json
+
+COPY ./backend/chat/install-bcrypt.sh /server/install-bcrypt.sh
+
+# Copy backend source code
+COPY ./backend/chat .
+
+RUN chmod +x /server/install-bcrypt.sh
+
+RUN /server/install-bcrypt.sh
+
+# Install nodemon for hot-reloading
+RUN npm install -g nodemon
+
+# Expose the backend server's port
+EXPOSE 8000
+
+# Start the Express app with nodemon
+CMD ["npm", "run", "start"]

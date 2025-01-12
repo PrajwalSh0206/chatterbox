@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import chatService from "../../../../services/chatService";
 import analyzeService from "../../../../services/analysisService";
-import Feedback from "./Feedback/Feedback";
+import Feedback from "./feedback/Feedback";
 
 const Message = ({ user, userId, sendMessage, chat = [], setChat }) => {
   const [message, setMessage] = useState("");
