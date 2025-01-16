@@ -37,9 +37,11 @@ const Message = ({ users, id, userId, sendMessage, chat = [], setChat }) => {
     analysisCall();
   }, [chat?.length]);
 
-  const handleMessage = (data) => {
-    sendMessage(data || message, { ...users[id], chatId });
-    setMessage("");
+  const handleMessage = (data, e) => {
+    if (e.key === "Enter" && message.trim() !== "") {
+      sendMessage(data || message, { ...users[id], chatId });
+      setMessage("");
+    }
   };
 
   const getTime = (date) => {
@@ -82,7 +84,7 @@ const Message = ({ users, id, userId, sendMessage, chat = [], setChat }) => {
       <div className="p-2 border-t-2 border-gray-300 flex space-x-2 bg-gray-100 rounded-b-md">
         <input
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={(e) => setMessage(e.target.value, e)}
           type="text"
           placeholder="Type your message here"
           className="text-sm text-gray-500 outline-none w-full bg-gray-100 rounded-b-md"
