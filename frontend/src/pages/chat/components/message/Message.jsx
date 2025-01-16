@@ -37,10 +37,14 @@ const Message = ({ users, id, userId, sendMessage, chat = [], setChat }) => {
     analysisCall();
   }, [chat?.length]);
 
-  const handleMessage = (data, e) => {
-    if (e.key === "Enter" && message.trim() !== "") {
-      sendMessage(data || message, { ...users[id], chatId });
+  const handleMessage = (e, data, type) => {
+    if (data) {
+      sendMessage(data, { ...users[id], chatId });
+    } else if ((e.key == "Enter" || type == "submit") && message.trim() !== "") {
+      sendMessage(message, { ...users[id], chatId });
       setMessage("");
+    } else {
+      setMessage(e.target.value);
     }
   };
 
@@ -84,13 +88,14 @@ const Message = ({ users, id, userId, sendMessage, chat = [], setChat }) => {
       <div className="p-2 border-t-2 border-gray-300 flex space-x-2 bg-gray-100 rounded-b-md">
         <input
           value={message}
-          onChange={(e) => setMessage(e.target.value, e)}
+          onChange={(e) => handleMessage(e)}
+          onKeyDown={handleMessage} // Detects "Enter" key
           type="text"
           placeholder="Type your message here"
           className="text-sm text-gray-500 outline-none w-full bg-gray-100 rounded-b-md"
         ></input>
         <button
-          onClick={() => handleMessage()}
+          onClick={() => handleMessage("", "", "submit")}
           disabled={message == ""}
           className="rounded-full active:scale-95 bg-gray-800 disabled:bg-gray-500 text-white p-2 flex items-center justify-center"
         >

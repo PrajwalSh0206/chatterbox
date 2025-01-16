@@ -6,7 +6,7 @@ const Feedback = ({ sentiment, sentimentResponse, handleMessage }) => {
           {sentimentResponse.map((value) => (
             <button
               onClick={() => {
-                handleMessage(value);
+                handleMessage("", value);
               }}
               className="border-2 border-indigo-500 text-indigo-500 hover:bg-indigo-100 text-sm p-2 bg-white rounded-md shadow-md "
             >
