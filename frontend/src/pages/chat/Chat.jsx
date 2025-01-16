@@ -12,7 +12,7 @@ const Chat = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("0");
   const [userId, setUserId] = useState("");
-  const [selectedUser, setSelectedUser] = useState({});
+  const [selectedUserId, setSelectedUserId] = useState(null);
   const [chat, setChat] = useState([]);
 
   useEffect(() => {
@@ -33,8 +33,8 @@ const Chat = () => {
     <div className="w-screen h-screen p-2 bg-gray-100 flex flex-col space-y-2">
       <Navbar username={username.charAt(0)}></Navbar>
       <div className="w-full h-full flex space-x-2">
-        <Sidebar userId={userId} users={users} setSelectedUser={setSelectedUser}></Sidebar>
-        {selectedUser?.username && <Message chat={chat} setChat={setChat} userId={userId} sendMessage={sendMessage} user={selectedUser}></Message>}
+        <Sidebar userId={userId} users={users} setSelectedUser={setSelectedUserId}></Sidebar>
+        {selectedUserId && <Message userId={userId} chat={chat} setChat={setChat} id={selectedUserId} sendMessage={sendMessage} users={users}></Message>}
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import chatService from "../../../../services/chatService";
 import analyzeService from "../../../../services/analysisService";
 import Feedback from "./feedback/Feedback";
 
-const Message = ({ user, userId, sendMessage, chat = [], setChat }) => {
+const Message = ({ users, id, userId, sendMessage, chat = [], setChat }) => {
   const [message, setMessage] = useState("");
   const [chatId, setChatId] = useState();
   const [sentiment, setSentiment] = useState("neutral");
@@ -12,14 +12,16 @@ const Message = ({ user, userId, sendMessage, chat = [], setChat }) => {
   useEffect(() => {
     const checkChatId = async () => {
       // Retrieve last 10 messages
-      const chats = await chatService.createChatId({ receieverId: user.userId });
+      const chats = await chatService.createChatId({ receieverId: users[id].userId });
       setChatId(chats.chatId);
 
       const messages = await chatService.fetchTopMessage(chats.chatId);
       setChat([...messages?.chat]);
     };
-    checkChatId();
-  }, [user?.username]);
+    if (id !== null) {
+      checkChatId();
+    }
+  }, [id]);
 
   useEffect(() => {
     const analysisCall = async () => {
@@ -36,7 +38,7 @@ const Message = ({ user, userId, sendMessage, chat = [], setChat }) => {
   }, [chat?.length]);
 
   const handleMessage = (data) => {
-    sendMessage(data || message, { ...user, chatId });
+    sendMessage(data || message, { ...users[id], chatId });
     setMessage("");
   };
 
@@ -54,10 +56,10 @@ const Message = ({ user, userId, sendMessage, chat = [], setChat }) => {
     <div className="h-full bg-white w-9/12 rounded-md border-2 border-gray-300 flex flex-col space-y-2">
       <div className="w-full border-b-2 p-2 flex space-x-2 items-center text-sm">
         <div className="flex flex-col items-center">
-          <img src={`https://api.dicebear.com/9.x/initials/svg?seed=${user["username"]}`} className="w-8 h-8 rounded-md" alt="avatar" />
+          <img src={`https://api.dicebear.com/9.x/initials/svg?seed=${users?.[id]?.["username"]}`} className="w-8 h-8 rounded-md" alt="avatar" />
         </div>
 
-        <p>{user.username}</p>
+        <p>{users?.[id]?.username}</p>
       </div>
 
       {/* Message Handler */}

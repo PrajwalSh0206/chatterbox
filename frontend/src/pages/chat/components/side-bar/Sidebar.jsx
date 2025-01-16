@@ -1,6 +1,6 @@
 const Sidebar = ({ users = {}, userId, setSelectedUser }) => {
-  const handleSelectedUser = (user) => {
-    setSelectedUser(user);
+  const handleSelectedUser = (key) => {
+    setSelectedUser(key);
   };
 
   return (
@@ -18,7 +18,7 @@ const Sidebar = ({ users = {}, userId, setSelectedUser }) => {
           key != userId && (
             <button
               key={users[key]["userId"]}
-              onClick={() => handleSelectedUser(users[key])}
+              onClick={() => handleSelectedUser(key)}
               className="w-full text-sm hover:bg-gray-100 p-2 flex space-x-3 items-start border-b-2"
             >
               <div className="flex flex-col items-center">
